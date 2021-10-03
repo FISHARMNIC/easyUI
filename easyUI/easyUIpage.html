@@ -1,0 +1,92 @@
+
+            <!DOCTYPE html>
+            <head>
+                <title>easyUI</title>
+            </head>
+            <body>
+            <div>
+ <p > Welcome! </p></div><div>
+<button onclick = "action0()"><div>
+ <p id='sometext'> i have been clicked 0 times! </p></div></button></div> 
+ <div style="position: absolute; top: 0; left:300px;">
+<br> <input id='someinput' placeholder='change me!' onkeyup='(() => {
+            bar.value = UI.getByID({
+                id: "someinput",
+                selector: "value"
+            })
+        })()'></div> 
+ <div style="position: absolute; top: 30px; left:300px;">
+ <p id='moretext'>  </p></div> 
+ <div style="position: absolute; top: 90px; left:300px;">
+ <img src="exampleAssets/cow.png" width="20%" height="20%"</div>
+            </body>
+            <script>
+            
+    var UI = {
+    funcBindObj: class {
+        constructor(data) {
+            this.run = data
+            this.varval = undefined
+        }
+        get value() {
+            return this.varval
+        }
+        set value(val) {
+            this.varval = val
+            this.run()
+        }
+    },
+    bindObj: class {
+        constructor(id,selector = "innerHTML"){
+            this.id = id
+            this.selector = selector
+            this.varval = undefined
+        }
+        get value() {
+            return this.varval
+        }
+        set value(val) {
+            eval(`document.getElementById("${this.id}").${this.selector} = ${this.varval}`)
+        }
+        
+    },
+    setByID: function({
+        selector = "innerHTML",
+        id,
+        value
+    }) {
+        //console.log(`document.getElementById("${id}").${selector} = value`)
+        eval(`document.getElementById("${id}").${selector} = "${value}"`)
+    },
+    getByID: function({
+        selector = "innerHTML",
+        id
+    }) {
+        return eval(`document.getElementById("${id}").${selector}`)
+    }
+    }
+    
+ action0 = (() => {
+            //console.log(foo.value)
+            foo.value += 1
+        })
+ 
+    var foo = new UI.funcBindObj(() => {
+        // when foo is changed, this is all ran
+        UI.setByID({
+            id: "sometext",
+            value: `i have been clicked ${foo.value} times!`
+        })
+    })
+
+    foo.value = 0
+
+    var bar = new UI.funcBindObj(() => {
+        UI.setByID({
+            id: "moretext",
+            value: bar.value
+        })
+    })
+
+            </script>
+            
